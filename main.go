@@ -13,19 +13,6 @@ var existingUsernames = map[string]struct{}{}
 var existingUsers = map[int32]User{}
 var userIdCount int32 = 1
 
-type RequestCode int
-
-const (
-	CREATE_USER = iota
-)
-
-type ResponseCode int
-
-const (
-	USER_CREATED = iota
-	USERNAME_TAKEN
-)
-
 type Http struct {
 	Writer  http.ResponseWriter
 	Request *http.Request
@@ -41,18 +28,10 @@ type RegisterNewUser struct {
 	Username string `json:"username"`
 }
 
-type User struct {
-	Username  string `json:"username"`
-	UserId    int32  `json:"user_id"`
-	CreatedAt int64  `json:"created_at"`
-}
-
 type Request struct {
-	Code RequestCode `json:"code"`
-	Data any         `json:"data"`
+	Code RequestCode     `json:"code"`
+	Data json.RawMessage `json:"data"`
 }
-
-func unpackRequest(req *http.Request) (any, error) //Unpack http request into appropriate struct based on Request Code
 
 type Response struct {
 	OK      bool         `json:"ok"`
@@ -114,10 +93,6 @@ func sendApiResponse(res Response, httpRef Http) error {
 
 }
 func main() {
-	http.HandleFunc("/createUser", handleCreateUser)
-
-	err := http.ListenAndServe(":8090", nil)
-	if err != nil {
-		fmt.Println("server error:", err)
-	}
+	initRouteHandlers()
+	startServer()
 }
