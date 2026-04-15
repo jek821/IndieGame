@@ -8,7 +8,7 @@ import (
 type RequestCode int
 
 const (
-	CREATE_USER = iota
+	CREATE_USER RequestCode = iota
 )
 
 type RequestCreateUser struct {
@@ -18,7 +18,7 @@ type RequestCreateUser struct {
 type ResponseCode int
 
 const (
-	USER_CREATED = iota
+	USER_CREATED ResponseCode = iota
 	USERNAME_TAKEN
 )
 
