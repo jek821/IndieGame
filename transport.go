@@ -9,10 +9,25 @@ type RequestCode int
 
 const (
 	CREATE_USER RequestCode = iota
+	REQUEST_USER_LOGIN
+	REQUEST_TOWNS_VIEW
+	REQUEST_TOWN_VIEW
+	REQUEST_UPDATE_TOWN
 )
 
 type RequestCreateUser struct {
 	Username string `json:"username"`
+}
+
+type RequestTownsView struct {
+	Username   string `json:"username"`
+	SessionKey int32  `json:"session_key"`
+}
+
+type RequestTownView struct {
+	Username   string `json:"username"`
+	SessionKey int32  `json:"session_key"`
+	TownID     int32  `json:"town_id"`
 }
 
 type ResponseCode int
